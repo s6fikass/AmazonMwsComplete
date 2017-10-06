@@ -34,13 +34,17 @@ abstract class FBAInboundServiceMWS_Model
     public function __construct($data = null)
     {
         if (!is_null($data)) {
+
             if ($this->_isAssociativeArray($data)) {
+
                 $this->_fromAssociativeArray($data);
+
             } elseif ($this->_isDOMElement($data)) {
                 $this->_fromDOMElement($data);
             } else {
                 throw new Exception ("Unable to construct from provided data. Please be sure to pass associative array or DOMElement");
             }
+
         }
     }
 
@@ -187,6 +191,7 @@ abstract class FBAInboundServiceMWS_Model
      */
     private function _fromAssociativeArray(array $array)
     {
+
         foreach ($this->_fields as $fieldName => $field) {
             $fieldType = $field['FieldType'];   
             if (is_array($fieldType)) {
@@ -212,6 +217,8 @@ abstract class FBAInboundServiceMWS_Model
                         }
                         if (count ($elements) >= 1) {
                             foreach ($elements as $element) {
+
+
                                 $this->_fields[$fieldName]['FieldValue'][] = $element;
                             }
                         }  
@@ -224,6 +231,7 @@ abstract class FBAInboundServiceMWS_Model
                         $this->_fields[$fieldName]['FieldValue'] = new $fieldType($array[$fieldName]);
                     }   
                  } else {
+
                     if (array_key_exists($fieldName, $array)) {
                         $this->_fields[$fieldName]['FieldValue'] = $array[$fieldName];
                     }

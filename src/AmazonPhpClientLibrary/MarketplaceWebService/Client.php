@@ -268,6 +268,7 @@ class MarketplaceWebService_Client implements MarketplaceWebService_Interface
     require_once (dirname(__FILE__) . '/Model/GetReportResponse.php');
 
     $httpResponse = $this->invoke($this->convertGetReport($request), $request->getReport());
+
     $response = MarketplaceWebService_Model_GetReportResponse::fromXML($httpResponse['ResponseBody']);
     $response->setResponseHeaderMetadata($httpResponse['ResponseHeaderMetadata']);
     return $response;
@@ -799,7 +800,7 @@ class MarketplaceWebService_Client implements MarketplaceWebService_Interface
     $response = array();
     $responseBody = null;
     $statusCode = 200;
-    
+
     /* Submit the request and read response body */
     try {
     	
@@ -851,6 +852,7 @@ class MarketplaceWebService_Client implements MarketplaceWebService_Interface
           
           /* Rethrow on deserializer error */
         } catch (Exception $e) {
+
           require_once (dirname(__FILE__) . '/Exception.php');
             throw new MarketplaceWebService_Exception(array('Exception' => $e, 'Message' => $e->getMessage()));
         }
@@ -934,7 +936,7 @@ class MarketplaceWebService_Client implements MarketplaceWebService_Interface
     	  rewind($this->errorResponseBody);
         $httpResponse =  stream_get_contents($this->errorResponseBody);	
     	} else {
-        $this->verifyContentMd5($this->getParsedHeader($parsedHeader,'Content-MD5'), $dataHandle);
+        //$this->verifyContentMd5($this->getParsedHeader($parsedHeader,'Content-MD5'), $dataHandle);
         $httpResponse = $this->getDownloadResponseDocument($action, $parsedHeader);
     	}
     }

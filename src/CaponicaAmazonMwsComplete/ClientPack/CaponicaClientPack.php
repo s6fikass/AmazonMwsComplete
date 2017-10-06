@@ -7,10 +7,15 @@ use CaponicaAmazonMwsComplete\Domain\Throttle\ThrottleAwareClientPackInterface;
 class CaponicaClientPack {
     public static function throttledCall(ThrottleAwareClientPackInterface $clientPack, $method, $options, $weight=null) {
         try {
+
             self::snooze($clientPack->getThrottleManager()->snoozeRequiredBeforeNewRequest($method, $weight));
+
             $clientPack->getThrottleManager()->addRequestLogForMethod($method, $weight);
+
+
             return $clientPack->$method($options);
         } catch (\Exception $e) {
+
             if (method_exists($e, 'getErrorCode') && 'RequestThrottled' == $e->getErrorCode()) {
                 echo "\nThe request was throttled";
                 if ($snoozeLength = $clientPack->getThrottleManager()->getRestoreInterval($method, $weight)) {

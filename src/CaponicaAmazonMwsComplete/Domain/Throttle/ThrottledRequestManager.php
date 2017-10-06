@@ -37,7 +37,9 @@ final class ThrottledRequestManager {
         return $this->requestLogCollections[$key]->getRestoreInterval($weight);
     }
     public function snoozeRequiredBeforeNewRequest($apiMethod, $weight=null) {
+
         $key = $this->convertApiMethodToThrottleLogKey($apiMethod);
+
         return $this->requestLogCollections[$key]->snoozeRequiredBeforeNewRequest($weight);
     }
     public function addRequestLogForMethod($apiMethod, $weight=null) {

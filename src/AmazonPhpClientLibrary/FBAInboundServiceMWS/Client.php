@@ -1133,6 +1133,7 @@ class FBAInboundServiceMWS_Client implements FBAInboundServiceMWS_Interface
             require_once (dirname(__FILE__) . '/Model/ListInboundShipmentsRequest.php');
             $request = new FBAInboundServiceMWS_Model_ListInboundShipmentsRequest($request);
         }
+
         $parameters = $request->toQueryParameterArray();
         $parameters['Action'] = 'ListInboundShipments';
         $httpResponse = $this->_invoke($parameters);
@@ -1446,6 +1447,7 @@ class FBAInboundServiceMWS_Client implements FBAInboundServiceMWS_Interface
      */
     public function __construct($awsAccessKeyId, $awsSecretAccessKey, $applicationName, $applicationVersion, $config = null)
     {
+
         iconv_set_encoding('output_encoding', 'UTF-8');
         iconv_set_encoding('input_encoding', 'UTF-8');
         iconv_set_encoding('internal_encoding', 'UTF-8');

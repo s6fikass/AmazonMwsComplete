@@ -340,6 +340,45 @@ class MwsFeedAndReportClientPack extends MwsFeedAndReportClient {
     }
 
     /**
+     * @param string|array $reportId       s        (optional) One or more ReportRequestIds, as returned by requestReport()
+     * @param array $reportTypes                    (optional) An array of ReportTypes to fetch
+     * @param array $reportProcessingStatuses       (optional) An array of ReportStatuses to fetch
+     * @param \DateTime $requestedFromDate          (optional) The start of a date range used for selecting the data to report
+     * @param \DateTime $requestedToDate            (optional) The end of a date range used for selecting the data to report
+     * @param int $maxCount                         (optional) The max number of report requests to return
+     * @return \MarketplaceWebService_Model_GetReportListResponse
+     */
+    public function callGetReportList($reportTypes=[],$reportRequestIds=null, $reportProcessingStatuses=[], $requestedFromDate=null, $requestedToDate=null, $maxCount=10) {
+        $parameters = [
+            self::PARAM_MARKETPLACE             => $this->marketplaceId,
+            self::PARAM_MERCHANT                => $this->sellerId,
+        ];
+        if (!empty($reportRequestIds)) {
+            $parameters[self::PARAM_REPORT_REQUEST_ID_LIST] = ['Id' => $reportRequestIds];
+        }
+        if (!empty($reportTypes)) {
+            $parameters[self::PARAM_REPORT_TYPE_LIST] = ['Type' => $reportTypes];
+        }
+        if (!empty($reportProcessingStatuses)) {
+            $parameters[self::PARAM_REPORT_PROCESSING_STATUS_LIST] = ['Status' => $reportProcessingStatuses];
+        }
+        if (!empty($requestedFromDate)) {
+            $parameters[self::PARAM_REQUESTED_FROM_DATE] = $requestedFromDate;
+        }
+        if (!empty($requestedToDate)) {
+            $parameters[self::PARAM_REQUESTED_TO_DATE] = $requestedToDate;
+        }
+        if (!empty($maxCount)) {
+            if ($maxCount > 100) {
+                $maxCount = 100;
+            } elseif ($maxCount < 1) {
+                $maxCount = 1;
+            }
+            $parameters[self::PARAM_MAX_COUNT] = $maxCount;
+        }
+        return $this->getReportList($parameters);
+    }
+    /**
      * @param string $reportId              The GeneratedReportId to download, as returned by getReportRequestList()
      * @param resource $filename            A file handle (resource) where the report will be written to
      * @return \MarketplaceWebService_Model_GetReportResponse
