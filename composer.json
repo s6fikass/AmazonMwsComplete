@@ -1,5 +1,5 @@
 {
-    "name": "caponica/amazon-mws-complete",
+    "name": "s6fikass/amazon-mws-complete",
     "type": "library",
     "license": "Apache-2.0",
     "description": "Complete Amazon MWS PHP SDK, including all libraries",
@@ -9,6 +9,8 @@
         {
             "name": "Christian Morgan, Caponica",
             "homepage": "http://www.github.com/Caponica"
+            "name": "Firas Kassawat",
+            "homepage": "http://www.github.com/s6fikass"
         }
     ],
 
