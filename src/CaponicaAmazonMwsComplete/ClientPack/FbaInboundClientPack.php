@@ -26,13 +26,15 @@ class FbaInboundClientPack extends FbaInboundClient implements ThrottleAwareClie
     const PARAM_LAST_UPDATED_BEFORE                     = 'LastUpdatedBefore';
     const PARAM_LAST_UPDATED_AFTER                      = 'LastUpdatedAfter';
     const PARAM_SHIPMENT_ID                             = 'ShipmentId';
+    const PARAM_SHIPMENT_ID_NEXT_TOKEN                  = 'NextToken';
     const SHIPPING_SPEED_STANDARD                       = 'Standard';
     const SHIPPING_SPEED_EXPEDITED                      = 'Expedited';
     const SHIPPING_SPEED_PRIORITY                       = 'Priority';
     const SHIPPING_SPEED_SCHEDULED                      = 'ScheduledDelivery';
 
     const METHOD_GET_SHIPMENTS_LIST                     = 'listInboundShipments';
-    const METHOD_GET_SHIPMENT_ITEMS_LIST               = 'listInboundShipmentItems';
+    const METHOD_GET_SHIPMENT_ITEMS_LIST                = 'listInboundShipmentItems';
+    const METHOD_GET_NEXT_TOKEN_SHIPMENTS_LIST          = 'listInboundShipmentsByNextToken';
 
 
     /** @var string $marketplaceId      The MWS MarketplaceID string used in API connections */
@@ -96,15 +98,19 @@ class FbaInboundClientPack extends FbaInboundClient implements ThrottleAwareClie
 
         return CaponicaClientPack::throttledCall($this, self::METHOD_GET_SHIPMENTS_LIST, $requestArray);
     }
+
+    public function callGetlistInboundShipmentByNextToken($NextToken) {
+        $requestArray = [
+            self::PARAM_MERCHANT                    => $this->sellerId,
+            self::PARAM_MARKETPLACE_ID              => $this->marketplaceId,
+            self::PARAM_SHIPMENT_ID_NEXT_TOKEN      => $NextToken,
+
+        ];
+
+        return CaponicaClientPack::throttledCall($this, self::METHOD_GET_NEXT_TOKEN_SHIPMENTS_LIST, $requestArray);
+    }
+
     /**
-     * @param string $sellerOrderId
-     * @param string $displayableOrderId
-     * @param \DateTime $displayableOrderDatetime
-     * @param string $displayableOrderComment
-     * @param string $shippingSpeed
-     * @param Address $destinationAddress
-     * @param CreateFulfillmentOrderItem[] $items
-     * @param null $notificationEmails
      * @return mixed
      */
     public function callGetlistInboundShipmentItems($shipmentId, $lastUpdatedBefore=null, $lastUpdatedAfter=null) {
@@ -119,6 +125,9 @@ class FbaInboundClientPack extends FbaInboundClient implements ThrottleAwareClie
 
         return CaponicaClientPack::throttledCall($this, self::METHOD_GET_SHIPMENT_ITEMS_LIST, $requestArray);
     }
+
+
+
 
     /**
      * @param Address $destinationAddress
@@ -168,6 +177,7 @@ class FbaInboundClientPack extends FbaInboundClient implements ThrottleAwareClie
             [
                 self::METHOD_GET_SHIPMENTS_LIST                    => [30, 2],
                 self::METHOD_GET_SHIPMENT_ITEMS_LIST               => [30, 2],
+                self::METHOD_GET_NEXT_TOKEN_SHIPMENTS_LIST         => [30, 2],
             ]
         );
     }
