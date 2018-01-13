@@ -42,7 +42,10 @@ require_once (dirname(__FILE__) . '/../Model.php');
     $this->_fields = array (
     'member' => array('FieldValue' => array(), 'FieldType' => array('string')),
     );
-    parent::__construct($data);
+    if($data!=null){
+        $this->setmember($data);
+    }
+
     }
 
     /**
