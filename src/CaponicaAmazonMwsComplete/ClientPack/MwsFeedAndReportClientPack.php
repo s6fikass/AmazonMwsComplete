@@ -378,6 +378,18 @@ class MwsFeedAndReportClientPack extends MwsFeedAndReportClient {
         }
         return $this->getReportList($parameters);
     }
+  public function callGetReportListByNextToken($nextToken) {
+        $parameters = [
+            self::PARAM_MARKETPLACE             => $this->marketplaceId,
+            self::PARAM_MERCHANT                => $this->sellerId,
+        ];
+        if (!empty($nextToken)) {
+
+            $parameters[self::PARAM_NEXT_TOKEN] = $nextToken;
+        }
+
+        return $this->getReportListByNextToken($parameters);
+    }
     /**
      * @param string $reportId              The GeneratedReportId to download, as returned by getReportRequestList()
      * @param resource $filename            A file handle (resource) where the report will be written to
