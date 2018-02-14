@@ -818,7 +818,7 @@ class MarketplaceWebService_Client implements MarketplaceWebService_Interface
       $parameters = $this->addRequiredParameters($parameters);
       $converted[CONVERTED_PARAMETERS_KEY] = $parameters;
 
-      $shouldRetry = false;
+      $shouldRetry = true;
       $retries = 0;
       do {
         try {
